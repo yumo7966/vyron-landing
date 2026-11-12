@@ -356,6 +356,8 @@ input{font-family:inherit}
 <label style="display: flex; flex-direction: column; gap: 6px; font-size: 14px; color: #C2C2C9">Ніша бізнесу
 <input name="niche" placeholder="Напр. магазин одягу, стоматологія" style="min-height: 48px; padding: 0 14px; border-radius: 12px; border: 1px solid #3A3A42; background: #08080A; color: #EDEDF0; font-size: 16px">
 </label>
+<input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+<p id="formErr" hidden style="margin:0;color:#F2B8B5;font-size:14px">Не вдалося надіслати. Напишіть нам у Telegram: <a href="https://t.me/andr1ko7">@andr1ko7</a></p>
 <button type="submit" style="min-height: 52px; border-radius: 999px; border: none; background: linear-gradient(180deg, #F4F4F6 0%, #B6B6BD 100%); color: #0A0A0B; font-weight: 700; font-size: 16px; cursor: pointer; margin-top: 4px">Надіслати заявку</button>
 </form>
 </div>
@@ -402,14 +404,20 @@ input{font-family:inherit}
   modal.addEventListener('click',function(e){ if(e.target===modal) modal.hidden=true; });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') modal.hidden=true; });
 
-  // Адреса функції, яка пересилає заявку в Telegram (вставити після налаштування бота)
-  var LEAD_ENDPOINT='';
+  var LEAD_ENDPOINT='/api/lead';
+  var err=document.getElementById('formErr'), btn=form.querySelector('button[type="submit"]');
   form.addEventListener('submit',function(e){
     e.preventDefault();
-    var data={tier:label.textContent,name:form.name.value,contact:form.contact.value,niche:form.niche.value};
-    if(LEAD_ENDPOINT){ fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){}); }
-    if(window.fbq) fbq('track','Lead');
-    formWrap.hidden=true; thanks.hidden=false;
+    err.hidden=true; btn.disabled=true; btn.textContent='Надсилаємо…';
+    var data={tier:label.textContent,name:form.name.value,contact:form.contact.value,niche:form.niche.value,website:form.website.value};
+    fetch(LEAD_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+      .then(function(r){ if(!r.ok) throw new Error('bad'); return r.json(); })
+      .then(function(){
+        if(window.fbq) fbq('track','Lead');
+        formWrap.hidden=true; thanks.hidden=false;
+      })
+      .catch(function(){ err.hidden=false; })
+      .then(function(){ btn.disabled=false; btn.textContent='Надіслати заявку'; });
   });
 })();
 </script>
