@@ -17,6 +17,24 @@ input{font-family:inherit}
 .logo-wrap{position:relative;width:min(760px,100%);aspect-ratio:2/1;filter:drop-shadow(0 0 40px rgba(255,255,255,.10))}
 .logo-img{position:absolute;inset:0;width:100%;height:100%;display:block}
 .logo-sheen{position:absolute;inset:0;-webkit-mask-image:url(vyron-logo.png);mask-image:url(vyron-logo.png);-webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;background:linear-gradient(105deg,rgba(255,255,255,0) 42%,rgba(255,255,255,.95) 50%,rgba(255,255,255,0) 58%);background-size:260% 100%;animation:sheen 5s ease-in-out infinite}
+.dash-box{--fit:1;position:relative;width:100%;max-width:1122px;height:calc(702px * var(--fit))}
+.dash-scale{position:absolute;top:0;left:50%;width:1122px;margin-left:-561px;transform:scale(var(--fit));transform-origin:50% 0}
+@keyframes fadeRight{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.dside,.dmain>div:first-child,.kpis>div,.drow>div{opacity:0}
+.go .dside{animation:fadeRight .6s cubic-bezier(.2,.7,.2,1) both}
+.go .dmain>div:first-child{animation:fadeUp .6s cubic-bezier(.2,.7,.2,1) .05s both}
+.go .kpis>div{animation:fadeUp .6s cubic-bezier(.2,.7,.2,1) both}
+.go .kpis>div:nth-child(1){animation-delay:.12s}.go .kpis>div:nth-child(2){animation-delay:.2s}.go .kpis>div:nth-child(3){animation-delay:.28s}.go .kpis>div:nth-child(4){animation-delay:.36s}
+.go .drow>div{animation:fadeUp .7s cubic-bezier(.2,.7,.2,1) both}
+.go .dmain>div:nth-child(3)>div:nth-child(1){animation-delay:.45s}.go .dmain>div:nth-child(3)>div:nth-child(2){animation-delay:.55s}
+.go .dmain>div:nth-child(4)>div:nth-child(1){animation-delay:.65s}.go .dmain>div:nth-child(4)>div:nth-child(2){animation-delay:.75s}
+@media (max-width: 640px){
+.nav-link{display:none}
+.cta-box{padding:36px 24px!important}
+.price{font-size:44px!important}
+.card{padding:28px 22px!important}
+.sec{padding-top:32px!important;padding-bottom:64px!important}
+}
 @keyframes sheen{0%{background-position:160% 0}55%,100%{background-position:-60% 0}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
